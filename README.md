@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # expense_tracker
 
 A new Flutter project.
@@ -15,3 +16,7 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# Expense-Tracker-App
+A Flutter Expense Tracker application developed as part of a Mobile App Development Internship, featuring income and expense management, transaction categorization, financial summaries, and local data persistence using SQLite.
+>>>>>>> 950adae370c47b112a15432b28240651cb286df0
