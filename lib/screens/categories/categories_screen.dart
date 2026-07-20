@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../category_details/category_details_screen.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
@@ -109,12 +110,25 @@ class CategoriesScreen extends StatelessWidget {
           itemBuilder: (context,index){
 
             return InkWell(
+onTap:(){
 
-              onTap: (){
+Navigator.push(
 
-                // Later we will open category details page
+context,
 
-              },
+MaterialPageRoute(
+
+builder:(context)=>CategoryDetailsScreen(
+
+categoryName: categories[index]["name"],
+
+),
+
+),
+
+);
+
+},
 
 
               child: Container(
