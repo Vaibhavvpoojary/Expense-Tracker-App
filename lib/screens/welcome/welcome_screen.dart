@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../profile_setup/profile_setup_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -86,8 +87,13 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    // Navigate to Profile Setup Screen
-                  },
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => const ProfileSetupScreen(),
+    ),
+  );
+},
                   child: const Text(
                     "Get Started",
                     style: TextStyle(
