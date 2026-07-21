@@ -93,7 +93,7 @@ class AboutSection extends StatelessWidget {
   );
 
 },
-          ),
+          ),//for git commiting
         ],
       ),
     );
