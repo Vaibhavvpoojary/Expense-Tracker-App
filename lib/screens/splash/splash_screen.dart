@@ -105,6 +105,17 @@ void initState() {
 
               const SizedBox(height: 50),
 
+              const Text(
+                "Version 1.0.0",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white70,
+                  letterSpacing: 0.5,
+                ),
+              ),
+
+              const SizedBox(height: 50),
+
               const CircularProgressIndicator(
                 color: Colors.white,
                 strokeWidth: 3,

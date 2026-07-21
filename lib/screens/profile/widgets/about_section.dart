@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'privacy_policy_dialog.dart';
+import 'terms_conditions_dialog.dart';
 
 class AboutSection extends StatelessWidget {
   const AboutSection({super.key});
@@ -48,8 +50,20 @@ class AboutSection extends StatelessWidget {
               size: 18,
             ),
             onTap: () {
-              // Open Privacy Policy
-            },
+
+  showDialog(
+
+    context: context,
+
+    builder: (context) {
+
+      return const PrivacyPolicyDialog();
+
+    },
+
+  );
+
+},
           ),
 
           const Divider(height: 1),
@@ -65,8 +79,20 @@ class AboutSection extends StatelessWidget {
               size: 18,
             ),
             onTap: () {
-              // Open Terms & Conditions
-            },
+
+  showDialog(
+
+    context: context,
+
+    builder: (context) {
+
+      return const TermsConditionsDialog();
+
+    },
+
+  );
+
+},
           ),
         ],
       ),

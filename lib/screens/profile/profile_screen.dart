@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'widgets/profile_header.dart';
 import 'widgets/income_balance_card.dart';
 import 'widgets/budget_limits_tile.dart';
 import 'widgets/category_limits_tile.dart';
 import 'widgets/account_section.dart';
 import 'widgets/about_section.dart';
+
 import '../home/widgets/home_bottom_navbar.dart';
+
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});

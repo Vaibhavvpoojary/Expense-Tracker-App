@@ -1,64 +1,148 @@
 import 'package:flutter/material.dart';
+import '../../edit_profile/edit_profile_screen.dart';
+import '../../categories/manage_categories_screen.dart';
 
 class AccountSection extends StatelessWidget {
   const AccountSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18),
+    return Container(
+      padding: const EdgeInsets.all(18),
+
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
       ),
+
       child: Column(
+
+        crossAxisAlignment: CrossAxisAlignment.start,
+
         children: [
-          const Padding(
-            padding: EdgeInsets.all(18),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Account",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+
+          const Text(
+            "Account",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+
+          const SizedBox(height: 15),
+
+
+
+          // Edit Profile
+
+          ListTile(
+
+            leading: const Icon(
+              Icons.edit,
+              color: Color(0xff2E7D32),
+            ),
+
+
+            title: const Text(
+              "Edit Profile",
+            ),
+
+
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+              size: 16,
+            ),
+
+
+
+            onTap: () {
+
+
+              Navigator.push(
+
+                context,
+
+                MaterialPageRoute(
+
+                  builder: (context) => const EditProfileScreen(),
+
                 ),
-              ),
-            ),
+
+              );
+
+
+            },
+
+
           ),
+
+
+
+          const Divider(),
+
+
+
+          // Manage Categories
 
           ListTile(
-            leading: const CircleAvatar(
-              backgroundColor: Color(0xffE8F5E9),
-              child: Icon(
-                Icons.edit,
-                color: Color(0xff2E7D32),
-              ),
+
+            leading: const Icon(
+
+              Icons.category,
+
+              color: Color(0xff2E7D32),
+
             ),
-            title: const Text("Edit Profile"),
-            trailing: const Icon(Icons.arrow_forward_ios, size: 18),
+
+
+
+            title: const Text(
+
+              "Manage Categories",
+
+            ),
+
+
+
+            trailing: const Icon(
+
+              Icons.arrow_forward_ios,
+
+              size: 16,
+
+            ),
+
+
+
             onTap: () {
-              // Navigate to Edit Profile Screen
+
+
+              Navigator.push(
+
+                context,
+
+                MaterialPageRoute(
+
+                  builder: (context) =>  ManageCategoriesScreen(),
+
+                ),
+
+              );
+
+
             },
+
+
           ),
 
-          const Divider(height: 1),
 
-          ListTile(
-            leading: const CircleAvatar(
-              backgroundColor: Color(0xffE8F5E9),
-              child: Icon(
-                Icons.category,
-                color: Color(0xff2E7D32),
-              ),
-            ),
-            title: const Text("Manage Categories"),
-            trailing: const Icon(Icons.arrow_forward_ios, size: 18),
-            onTap: () {
-              // Navigate to Manage Categories Screen
-            },
-          ),
         ],
+
       ),
+
     );
+
   }
+
 }
