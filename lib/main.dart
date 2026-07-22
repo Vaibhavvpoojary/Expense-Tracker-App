@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'screens/splash/splash_screen.dart';
+import 'database/database_helper.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize SQLite database
+  await DatabaseHelper.instance.database;
+
   runApp(const ExpenseTrackerApp());
 }
 

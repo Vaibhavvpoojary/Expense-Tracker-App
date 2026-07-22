@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../home/home_screen.dart';
+import '../../database/database_helper.dart';
+import '../../models/profile_model.dart';
 
 class ProfileSetupScreen extends StatefulWidget {
   const ProfileSetupScreen({super.key});
@@ -99,7 +101,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                 ),
               ),
 
-              RadioListTile(
+              RadioListTile<String>(
                 title: const Text("Student"),
                 value: "Student",
                 groupValue: occupation,
@@ -110,7 +112,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                 },
               ),
 
-              RadioListTile(
+              RadioListTile<String>(
                 title: const Text("Working"),
                 value: "Working",
                 groupValue: occupation,
@@ -148,13 +150,60 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) =>  HomeScreen(),
-    ),
-  );
+                  onPressed: () async {
+                    try {
+                      // Validation
+                      if (nameController.text.trim().isEmpty ||
+                          ageController.text.trim().isEmpty ||
+                          incomeController.text.trim().isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Please fill all the fields"),
+                          ),
+                        );
+                        return;
+                      }
+
+                      final profile = ProfileModel(
+                        id: 1,
+                        name: nameController.text.trim(),
+                        age: int.parse(ageController.text.trim()),
+                        occupation: occupation,
+                        income: double.parse(
+                          incomeController.text.trim(),
+                        ),
+                        currency: "₹",
+                      );
+
+                      await DatabaseHelper.instance.insertProfile(profile);
+
+                      if (!mounted) return;
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Profile saved successfully!"),
+                          backgroundColor: Color(0xff2E7D32),
+                        ),
+                      );
+
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const HomeScreen(),
+                        ),
+                      );
+                    } catch (e) {
+                      debugPrint("ERROR: $e");
+
+                      if (!mounted) return;
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(e.toString()),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
                   },
                   child: const Text(
                     "Continue",
