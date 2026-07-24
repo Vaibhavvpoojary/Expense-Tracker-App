@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import '../../../models/transaction_model.dart';
 
 class RecentTransactionCard extends StatelessWidget {
-  const RecentTransactionCard({super.key});
+  final List<TransactionModel> transactions;
+
+  const RecentTransactionCard({
+    super.key,
+    this.transactions = const [],
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,40 +50,75 @@ class RecentTransactionCard extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          _transactionTile(
-            icon: Icons.fastfood,
-            iconColor: Colors.orange,
-            title: "Food",
-            subtitle: "Lunch",
-            amount: "₹250",
-            date: "Today",
-          ),
-
-          const Divider(),
-
-          _transactionTile(
-            icon: Icons.directions_bus,
-            iconColor: Colors.blue,
-            title: "Travel",
-            subtitle: "Bus Ticket",
-            amount: "₹450",
-            date: "Yesterday",
-          ),
-
-          const Divider(),
-
-          _transactionTile(
-            icon: Icons.shopping_cart,
-            iconColor: Colors.green,
-            title: "Grocery",
-            subtitle: "Super Market",
-            amount: "₹1,200",
-            date: "18 Jul",
-          ),
+          if (transactions.isEmpty)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: Text(
+                "No transactions yet",
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 14,
+                ),
+              ),
+            )
+          else
+            ...List.generate(transactions.length, (index) {
+              final transaction = transactions[index];
+              return Column(
+                children: [
+                  _transactionTile(
+                    icon: _getCategoryIcon(transaction.categoryId),
+                    iconColor: _getCategoryColor(transaction.categoryId),
+                    title: transaction.title,
+                    subtitle: transaction.note ?? "No note",
+                    amount: "${transaction.type == 'Income' ? '+' : '-'}₹${transaction.amount.toStringAsFixed(2)}",
+                    date: transaction.date,
+                    isIncome: transaction.type == 'Income',
+                  ),
+                  if (index < transactions.length - 1) const Divider(),
+                ],
+              );
+            }),
 
         ],
       ),
     );
+  }
+
+  IconData _getCategoryIcon(int categoryId) {
+    // Map category IDs to icons (based on default categories order)
+    final icons = [
+      Icons.restaurant,      // Food
+      Icons.directions_car,  // Travel
+      Icons.local_grocery_store, // Grocery
+      Icons.home,            // Home
+      Icons.school,          // Education
+      Icons.receipt_long,    // Bills
+      Icons.movie,           // Entertainment
+      Icons.local_hospital,  // Health
+      Icons.shopping_bag,    // Shopping
+      Icons.account_balance_wallet, // Salary
+      Icons.category,        // Others
+    ];
+    return icons[categoryId % icons.length];
+  }
+
+  Color _getCategoryColor(int categoryId) {
+    // Map category IDs to colors
+    final colors = [
+      Colors.orange,
+      Colors.blue,
+      Colors.green,
+      Colors.purple,
+      Colors.red,
+      Colors.amber,
+      Colors.pink,
+      Colors.teal,
+      Colors.indigo,
+      Colors.lightGreen,
+      Colors.grey,
+    ];
+    return colors[categoryId % colors.length];
   }
 
   Widget _transactionTile({
@@ -87,6 +128,7 @@ class RecentTransactionCard extends StatelessWidget {
     required String subtitle,
     required String amount,
     required String date,
+    bool isIncome = false,
   }) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
@@ -115,8 +157,8 @@ class RecentTransactionCard extends StatelessWidget {
 
           Text(
             amount,
-            style: const TextStyle(
-              color: Colors.red,
+            style: TextStyle(
+              color: isIncome ? Colors.green : Colors.red,
               fontWeight: FontWeight.bold,
             ),
           ),

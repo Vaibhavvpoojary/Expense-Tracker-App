@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../database/database_helper.dart';
+import '../../models/transaction_model.dart';
 
 class AddTransactionScreen extends StatefulWidget {
   const AddTransactionScreen({super.key});
@@ -236,15 +238,51 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                     borderRadius: BorderRadius.circular(14),
                   ),
                 ),
-                onPressed: () {
+                onPressed: () async {
+                  try {
+                    // Validation
+                    if (amountController.text.trim().isEmpty ||
+                        titleController.text.trim().isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Please fill amount and title"),
+                        ),
+                      );
+                      return;
+                    }
 
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Transaction Saved Successfully"),
-                    ),
-                  );
+                    final transaction = TransactionModel(
+                      title: titleController.text.trim(),
+                      amount: double.parse(amountController.text.trim()),
+                      type: transactionType,
+                      categoryId: categories.indexOf(selectedCategory) + 1,
+                      date: "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
+                      note: notesController.text.trim().isEmpty
+                          ? null
+                          : notesController.text.trim(),
+                    );
 
-                  Navigator.pop(context);
+                    await DatabaseHelper.instance.insertTransaction(transaction);
+
+                    if (!mounted) return;
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Transaction Saved Successfully"),
+                        backgroundColor: Color(0xff2E7D32),
+                      ),
+                    );
+
+                    Navigator.pop(context);
+                  } catch (e) {
+                    if (!mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Error: ${e.toString()}"),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
                 },
                 child: const Text(
                   "SAVE TRANSACTION",
